@@ -1,5 +1,7 @@
 //credit goes to Steven Frank of Cloud to Butt (https://github.com/panicsteve/cloud-to-butt/)
 
+//This extension contains material for mature audiences. If you have a problem with wording throughout this extension then this extension may be what you need.
+
 walk(document.body);
 
 function walk(node)  
@@ -63,13 +65,13 @@ function handleText(textNode)
     v = v.replace(/\b(Girl|Woman|Boy|Man)\b/g, "person");
 
     //Phrase or sentence neutralizer
-    v = v.replace(/she says |he says /g, " they said "); //fatlip
+    v = v.replace(/she says |he says /g, " they said "); //fatlip, look up the lyrics with this extension installed.
     v = v.replace(/She says |He says /g, " they said "); //fatlip
 
 
-    //racial identity neutralizer
+    //racial identity neutralizer. These are combinations of words that are read online daily and should not be read out of context of the extension.
     v = v.replace(/black person/g, " person ");
-    v = v.replace(/white person/g, " person "); //Slim Shady
+    v = v.replace(/white person/g, " person "); //Slim Shady, look up the lyrics with this extension installed.
     v = v.replace(/asian person/g, " person ");
     v = v.replace(/french person/g, " person ");
     v = v.replace(/canadian person/g, " person ");
