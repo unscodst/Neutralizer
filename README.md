@@ -1,6 +1,8 @@
 # Neutralizer
 Neutralizer helps create a gender and racial neutral browsing experience.
 
+This is done by removing gender and racial specific pronouns and replacing them with more neutral pronouns. This also helps with gender and racial identity. Some articles may have the wrong gender or race because they assume by looking and not asking. With Neutralizer all articals are created neutral.
+
 Neutralizer works by walking through the DOM and replacing words that match with what is set in the handleText function.
 
 
