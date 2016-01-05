@@ -78,8 +78,6 @@ function handleText(textNode)
     v = v.replace(/canadian person/g, " person ");
     v = v.replace(/Black woman |Black man /g, " Person ");
     v = v.replace(/black woman |black man /g, " person ");
-    v = v.replace(/ISIS/g, " Tiddly Winks ");
-    v = v.replace(/Islamic State/g, " Twinkle Toes ");
 
     textNode.nodeValue = v;
 }
