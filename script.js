@@ -78,6 +78,13 @@ function handleText(textNode)
     v = v.replace(/canadian person/g, " person ");
     v = v.replace(/Black woman |Black man /g, " Person ");
     v = v.replace(/black woman |black man /g, " person ");
+    
+    //racial profanity neutralizer
+    v = v.replace(/nigger/g, " someone who annoys you "); // "oh, nagger...."
+    v = v.replace(/spearchucker/g, " olympics contestant ");
+    v = v.replace(/currynigger/g, " microsoft support official ");
+    v = v.replace(/snownigger/g, " proud viking ");
+    v = v.replace(/sandnigger/g, " bomb enthousiast ");
 
     textNode.nodeValue = v;
 }
