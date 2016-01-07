@@ -22,36 +22,21 @@ var matches = [{
     'r': 'person'
 }]
 
-//This extension contains material for mature audiences. If you have a problem with wording throughout this extension then this extension may be what you need.
+// Extension of Object to replace recursively on all child nodes
+Object.prototype.replaceText = function(replaceHandler) {
+    var children = this.childNodes;
+    for (var i = 0; i < children.length; i++) {
+        if (children[i].nodeType == 3) {
 
-walk(document.body);
-
-function walk(node)  
-{
-    // I stole this function from here: 
-    //http://readwrite.com/2014/08/29/chrome-extension-build-your-own-caaaaarbs
-    //They got it from here:
-    // http://is.gd/mwZp7E
-
-    var child, next;
-
-    switch ( node.nodeType )  
-    {
-        case 1: 
-        case 9:  
-        case 11: 
-            child = node.firstChild;
-            while ( child ) 
-            {
-                next = child.nextSibling; 
-                walk(child);
-                child = next;
+            if (children[i].textContent.trim() == '') {
+                continue;
             }
-            break;
 
-        case 3: 
-            handleText(node);
-            break;
+            children[i].textContent = replaceHandler(children[i].textContent);
+
+        } else {
+            children[i].replaceText(replaceHandler);
+        }
     }
 }
 
