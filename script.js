@@ -40,41 +40,22 @@ Object.prototype.replaceText = function(replaceHandler) {
     }
 }
 
-/* 
- My thoughts on what words should be associated.
- She || He = They
- Gals || Guys = All
- Her || His = Their
- Women || Men = People
- Ladies || Gentalmen = Everyone || All
- Girl || Boy || Man || Woman = Person
+// Builds a pattern to match the given text; accounts for variations in case
+function matchCase(text, pattern) {
+    var result = '';
 
-*/
+    for (var i = 0; i < text.length; i++) {
+        var c = text.charAt(i);
+        var p = pattern.charCodeAt(i);
 
-function handleText(textNode) 
-{
-    var v = textNode.nodeValue;
-
-    //Normal one word neutralizer
-    v = v.replace(/\b(she|he)\b/g, "they");
-    v = v.replace(/\b(She|He)\b/g, "They");
-    v = v.replace(/\b(gals|guys)\b/g, "all");
-    v = v.replace(/\b(Gals|Guys)\b/g, "All");
-    v = v.replace(/\b(her|his)\b/g, "their");
-    v = v.replace(/\b(Her|His)\b/g, "Their");
-    v = v.replace(/\b(women|men)\b/g, "people");
-    v = v.replace(/\b(Women|Men)\b/g, "People");
-    v = v.replace(/\b(daughter|son)\b/g, "child");
-    v = v.replace(/\b(Daughter|Son)\b/g, "child");
-    v = v.replace(/\b(girls|boys)\b/g, "children");
-    v = v.replace(/\b(Girls|Boys)\b/g, "Children");
-    v = v.replace(/\b(girl|woman|boy|man)\b/g, "person");
-    v = v.replace(/\b(Girl|Woman|Boy|Man)\b/g, "person");
-
-    //Phrase or sentence neutralizer
-    v = v.replace(/she says |he says /g, " they said "); //fatlip, look up the lyrics with this extension installed.
-    v = v.replace(/She says |He says /g, " they said "); //fatlip
-
+        if (p >= 65 && p < 65 + 26) {
+            result += c.toUpperCase();
+        } else {
+            result += c.toLowerCase();
+        }
+    }
+    return result;
+}
 
     //racial identity neutralizer. These are combinations of words that are read online daily and should not be read out of context of the extension.
     v = v.replace(/black person/g, " person ");
