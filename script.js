@@ -57,15 +57,26 @@ function matchCase(text, pattern) {
     return result;
 }
 
-    //racial identity neutralizer. These are combinations of words that are read online daily and should not be read out of context of the extension.
-    v = v.replace(/black person/g, " person ");
-    v = v.replace(/white person/g, " person "); //Slim Shady, look up the lyrics with this extension installed.
-    v = v.replace(/asian person/g, " person ");
-    v = v.replace(/french person/g, " person ");
-    v = v.replace(/canadian person/g, " person ");
-    v = v.replace(/canadian person/g, " person ");
-    v = v.replace(/Black woman |Black man /g, " Person ");
-    v = v.replace(/black woman |black man /g, " person ");
-
-    textNode.nodeValue = v;
+// Expands the matches to ethnicities programmatically
+var ethnicities = ['white', 'black', 'hispanic', 'latino', 'canadian', 'french', 'mexican', 'asian', 'arabic']
+for (var j = 0; j < ethnicities.length; j++) {
+    matches.push({
+        'm': new RegExp(ethnicities[j] + ' person', 'ig'),
+        'r': 'person'
+    });
+    matches.push({
+        'm': new RegExp(ethnicities[j] + ' people', 'ig'),
+        'r': 'people'
+    });
 }
+
+// Recursively replaces all text starting at the document body
+document.body.replaceText(function(textContent) {
+    var text = textContent;
+    for (var i = 0; i < matches.length; i++) {
+        text = text.replace(matches[i]['m'], function(match) {
+            return matchCase(matches[i]['r'], match);
+        });
+    }
+    return text;
+});
