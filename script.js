@@ -1,4 +1,26 @@
-//credit goes to Steven Frank of Cloud to Butt (https://github.com/panicsteve/cloud-to-butt/)
+// Defines generic matches
+var matches = [{
+    'm': /\b(she|he)\b/ig,
+    'r': 'they'
+  }, {
+    'm': /\b(guys|gals)\b/ig,
+    'r': 'all'
+  }, {
+    'm': /\b(his|her)\b/ig,
+    'r': 'theirs'
+  }, {
+    'm': /\b(men|women)\b/ig,
+    'r': 'people'
+  }, {
+    'm': /\b(son|daughter)\b/ig,
+    'r': 'child'
+  }, {
+    'm': /\b(boys|girls)\b/ig,
+    'r': 'children'
+  }, {
+    'm': /\b(girl|woman|boy|man)\b/ig,
+    'r': 'person'
+}]
 
 //This extension contains material for mature audiences. If you have a problem with wording throughout this extension then this extension may be what you need.
 
