@@ -7,12 +7,12 @@ var matches = [{
     'r': 'all'
   }, {
     'm': /\b(his|her)\b/ig,
-    'r': 'theirs'
+    'r': 'their'
   }, {
     'm': /\b(men|women)\b/ig,
     'r': 'people'
   }, {
-    'm': /\b(son|daughter)\b/ig,
+    'm': /\b(son|daughter|girl|boy)\b/ig,
     'r': 'child'
   }, {
     'm': /\b(boys|girls)\b/ig,
@@ -58,7 +58,7 @@ function matchCase(text, pattern) {
 }
 
 // Expands the matches to ethnicities programmatically
-var ethnicities = ['white', 'black', 'hispanic', 'latino', 'canadian', 'french', 'mexican', 'asian', 'arabic']
+var ethnicities = ['white', 'black', 'african', 'arabic', 'arabs', 'asian', 'canadian', 'dutch', 'french', 'greek', 'hispanic','indian', 'italian', 'latino','mexican', ]
 for (var j = 0; j < ethnicities.length; j++) {
     matches.push({
         'm': new RegExp(ethnicities[j] + ' person', 'ig'),
