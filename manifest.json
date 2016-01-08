@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Neutralizer",
-    "version": "1.0",
+    "version": "1.1",
     "description": "Neutralizer helps create a gender neutral browsing experience. Focus on racial identity as well as gendered phrases and sentences will be implamented in future updates. Fork Here: https://github.com/unscodst/Neutralizer",
     "content_scripts": [
         {

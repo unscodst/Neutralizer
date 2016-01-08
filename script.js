@@ -1,83 +1,82 @@
-//credit goes to Steven Frank of Cloud to Butt (https://github.com/panicsteve/cloud-to-butt/)
+// Defines generic matches
+var matches = [{
+    'm': /\b(she|he)\b/ig,
+    'r': 'they'
+  }, {
+    'm': /\b(guys|gals)\b/ig,
+    'r': 'all'
+  }, {
+    'm': /\b(his|her)\b/ig,
+    'r': 'theirs'
+  }, {
+    'm': /\b(men|women)\b/ig,
+    'r': 'people'
+  }, {
+    'm': /\b(son|daughter)\b/ig,
+    'r': 'child'
+  }, {
+    'm': /\b(boys|girls)\b/ig,
+    'r': 'children'
+  }, {
+    'm': /\b(girl|woman|boy|man)\b/ig,
+    'r': 'person'
+}]
 
-//This extension contains material for mature audiences. If you have a problem with wording throughout this extension then this extension may be what you need.
+// Extension of Object to replace recursively on all child nodes
+Object.prototype.replaceText = function(replaceHandler) {
+    var children = this.childNodes;
+    for (var i = 0; i < children.length; i++) {
+        if (children[i].nodeType == 3) {
 
-walk(document.body);
-
-function walk(node)  
-{
-    // I stole this function from here: 
-    //http://readwrite.com/2014/08/29/chrome-extension-build-your-own-caaaaarbs
-    //They got it from here:
-    // http://is.gd/mwZp7E
-
-    var child, next;
-
-    switch ( node.nodeType )  
-    {
-        case 1: 
-        case 9:  
-        case 11: 
-            child = node.firstChild;
-            while ( child ) 
-            {
-                next = child.nextSibling; 
-                walk(child);
-                child = next;
+            if (children[i].textContent.trim() == '') {
+                continue;
             }
-            break;
 
-        case 3: 
-            handleText(node);
-            break;
+            children[i].textContent = replaceHandler(children[i].textContent);
+
+        } else {
+            children[i].replaceText(replaceHandler);
+        }
     }
 }
 
-/* 
- My thoughts on what words should be associated.
- She || He = They
- Gals || Guys = All
- Her || His = Their
- Women || Men = People
- Ladies || Gentalmen = Everyone || All
- Girl || Boy || Man || Woman = Person
+// Builds a pattern to match the given text; accounts for variations in case
+function matchCase(text, pattern) {
+    var result = '';
 
-*/
+    for (var i = 0; i < text.length; i++) {
+        var c = text.charAt(i);
+        var p = pattern.charCodeAt(i);
 
-function handleText(textNode) 
-{
-    var v = textNode.nodeValue;
-
-    //Normal one word neutralizer
-    v = v.replace(/\b(she|he)\b/g, "they");
-    v = v.replace(/\b(She|He)\b/g, "They");
-    v = v.replace(/\b(gals|guys)\b/g, "all");
-    v = v.replace(/\b(Gals|Guys)\b/g, "All");
-    v = v.replace(/\b(her|his)\b/g, "their");
-    v = v.replace(/\b(Her|His)\b/g, "Their");
-    v = v.replace(/\b(women|men)\b/g, "people");
-    v = v.replace(/\b(Women|Men)\b/g, "People");
-    v = v.replace(/\b(daughter|son)\b/g, "child");
-    v = v.replace(/\b(Daughter|Son)\b/g, "child");
-    v = v.replace(/\b(girls|boys)\b/g, "children");
-    v = v.replace(/\b(Girls|Boys)\b/g, "Children");
-    v = v.replace(/\b(girl|woman|boy|man)\b/g, "person");
-    v = v.replace(/\b(Girl|Woman|Boy|Man)\b/g, "person");
-
-    //Phrase or sentence neutralizer
-    v = v.replace(/she says |he says /g, " they said "); //fatlip, look up the lyrics with this extension installed.
-    v = v.replace(/She says |He says /g, " they said "); //fatlip
-
-
-    //racial identity neutralizer. These are combinations of words that are read online daily and should not be read out of context of the extension.
-    v = v.replace(/black person/g, " person ");
-    v = v.replace(/white person/g, " person "); //Slim Shady, look up the lyrics with this extension installed.
-    v = v.replace(/asian person/g, " person ");
-    v = v.replace(/french person/g, " person ");
-    v = v.replace(/canadian person/g, " person ");
-    v = v.replace(/canadian person/g, " person ");
-    v = v.replace(/Black woman |Black man /g, " Person ");
-    v = v.replace(/black woman |black man /g, " person ");
-
-    textNode.nodeValue = v;
+        if (p >= 65 && p < 65 + 26) {
+            result += c.toUpperCase();
+        } else {
+            result += c.toLowerCase();
+        }
+    }
+    return result;
 }
+
+// Expands the matches to ethnicities programmatically
+var ethnicities = ['white', 'black', 'hispanic', 'latino', 'canadian', 'french', 'mexican', 'asian', 'arabic']
+for (var j = 0; j < ethnicities.length; j++) {
+    matches.push({
+        'm': new RegExp(ethnicities[j] + ' person', 'ig'),
+        'r': 'person'
+    });
+    matches.push({
+        'm': new RegExp(ethnicities[j] + ' people', 'ig'),
+        'r': 'people'
+    });
+}
+
+// Recursively replaces all text starting at the document body
+document.body.replaceText(function(textContent) {
+    var text = textContent;
+    for (var i = 0; i < matches.length; i++) {
+        text = text.replace(matches[i]['m'], function(match) {
+            return matchCase(matches[i]['r'], match);
+        });
+    }
+    return text;
+});
